@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Us - LMSystem</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+  <div id="sidebarPlaceholder"></div>
+  <div class="app-content">
+    <div id="topbarPlaceholder"></div>
+    <main class="page-main">
+      <h2 class="fw-bold mb-4"><i class="bi bi-info-circle me-2"></i>About Us</h2>
+
+      <div class="card p-4 mb-4">
+        <p class="mb-3">LMSystem is a Library Management System built to help administrators track books, publications, students, and library staff in one place — with fast search and pagination across every module.</p>
+        <p class="mb-0 text-muted">This module list mirrors the requirement roadmap: books, borrowing, students, librarians, newspapers, and magazines, all searchable and paginated, backed by a live dashboard.</p>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card h-100 p-4">
+            <div class="icon-badge badge-primary mb-3"><i class="bi bi-book"></i></div>
+            <h5>Catalog Management</h5>
+            <p class="text-muted small mb-0">Add, edit, borrow, and return books with real-time availability tracking.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 p-4">
+            <div class="icon-badge badge-success mb-3"><i class="bi bi-people"></i></div>
+            <h5>People</h5>
+            <p class="text-muted small mb-0">Manage the students who borrow and the librarians who run the desk.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 p-4">
+            <div class="icon-badge badge-accent mb-3"><i class="bi bi-newspaper"></i></div>
+            <h5>Publications</h5>
+            <p class="text-muted small mb-0">Track daily newspapers and periodic magazines side by side with the same tools.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async () => {
+  await requireLogin();
+  renderShell('about');
+})();
+</script>
+</body>
+</html>

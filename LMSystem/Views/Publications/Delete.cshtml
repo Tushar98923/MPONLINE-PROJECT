@@ -1,0 +1,29 @@
+@model Publication
+@{
+    var typeName = Model.Type.ToString();
+    ViewData["Title"] = "Remove " + typeName;
+    ViewData["ActiveNav"] = Model.Type == PublicationType.Magazine ? "magazines" : "newspapers";
+}
+
+<div class="card p-4" style="max-width: 550px;">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-danger"><i class="bi bi-trash"></i></div>
+        <div>
+            <h5>Confirm permanent deletion</h5>
+            <p>Are you sure you want to remove this @(typeName.ToLower()) from the collection? This cannot be undone.</p>
+        </div>
+    </div>
+    <dl class="row bg-light p-3 rounded">
+        <dt class="col-sm-4 text-secondary">Title</dt>
+        <dd class="col-sm-8 fw-bold">@Model.Title</dd>
+        <dt class="col-sm-4 text-secondary">Publisher</dt>
+        <dd class="col-sm-8">@Model.Publisher</dd>
+        <dt class="col-sm-4 text-secondary">Issue Date</dt>
+        <dd class="col-sm-8">@Model.PublishedDate.ToString("yyyy-MM-dd")</dd>
+    </dl>
+    <form asp-action="Delete" method="post" class="d-flex gap-2 justify-content-end mt-3">
+        <input type="hidden" asp-for="Id">
+        <a asp-action="Index" asp-route-type="@typeName" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1"></i>Cancel</a>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Yes, Delete</button>
+    </form>
+</div>

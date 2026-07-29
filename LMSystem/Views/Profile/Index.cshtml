@@ -1,0 +1,42 @@
+@model Account
+@{
+    ViewData["Title"] = "My Profile";
+    ViewData["ActiveNav"] = "profile";
+
+    string RoleBadgeClass(AccountRole role) => role switch
+    {
+        AccountRole.Admin => "bg-danger",
+        AccountRole.Librarian => "bg-warning text-dark",
+        AccountRole.Teacher => "bg-info text-dark",
+        AccountRole.Student => "bg-primary",
+        _ => "bg-secondary"
+    };
+}
+
+<h2 class="fw-bold mb-4"><i class="bi bi-person-circle me-2"></i>My Profile</h2>
+
+<div class="card p-4" style="max-width: 560px;">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-success"><i class="bi bi-person"></i></div>
+        <div>
+            <h5 class="mb-0">@Model.FullName</h5>
+            <span class="badge @RoleBadgeClass(Model.Role)">@Model.Role</span>
+        </div>
+    </div>
+    <dl class="row bg-light p-3 rounded">
+        <dt class="col-sm-4 text-secondary">Username</dt>
+        <dd class="col-sm-8 fw-bold">@Model.Username</dd>
+        <dt class="col-sm-4 text-secondary">Full Name</dt>
+        <dd class="col-sm-8">@Model.FullName</dd>
+        <dt class="col-sm-4 text-secondary">Email</dt>
+        <dd class="col-sm-8">@Model.Email</dd>
+        <dt class="col-sm-4 text-secondary">Role</dt>
+        <dd class="col-sm-8">@Model.Role</dd>
+        <dt class="col-sm-4 text-secondary">Member Since</dt>
+        <dd class="col-sm-8">@Model.CreatedAt.ToString("MMM d, yyyy")</dd>
+    </dl>
+    <div class="d-flex gap-2 mt-3">
+        <a asp-action="Edit" class="btn btn-primary"><i class="bi bi-pencil me-1"></i>Edit Profile</a>
+        <a asp-action="ChangePassword" class="btn btn-outline-secondary"><i class="bi bi-key me-1"></i>Change Password</a>
+    </div>
+</div>

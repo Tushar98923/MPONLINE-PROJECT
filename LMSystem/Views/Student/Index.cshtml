@@ -1,0 +1,84 @@
+@model StudentListViewModel
+@{
+    ViewData["Title"] = "Students";
+    ViewData["ActiveNav"] = "students";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h2 class="fw-bold m-0"><i class="bi bi-mortarboard me-2"></i>Students</h2>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Add New Student</a>
+</div>
+
+<form asp-action="Index" method="get" class="d-flex search-bar gap-2 mb-3 flex-wrap">
+    <input type="text" name="searchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Search by name, email, phone...">
+    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search me-1"></i>Search</button>
+    @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
+    {
+        <a asp-action="Index" class="btn btn-link"><i class="bi bi-x-circle me-1"></i>Clear</a>
+    }
+</form>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Students.Count == 0)
+                {
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="bi bi-person-x"></i>
+                                <h6>No students found</h6>
+                                <p>@(string.IsNullOrWhiteSpace(Model.SearchTerm) ? "Add a student to get started." : "Try a different search term or clear the filter.")</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var s in Model.Students)
+                    {
+                        <tr>
+                            <td>@s.StudentName</td>
+                            <td>@s.Email</td>
+                            <td>@s.Phone</td>
+                            <td class="table-actions">
+                                <a asp-action="Edit" asp-route-id="@s.StudentId" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@s.StudentId" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <div class="card-footer bg-white border-0 py-3">
+            <nav>
+                <ul class="pagination mb-0">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-searchTerm="@Model.SearchTerm">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-searchTerm="@Model.SearchTerm">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-searchTerm="@Model.SearchTerm">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

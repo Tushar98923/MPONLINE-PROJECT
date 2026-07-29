@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Not Found";
+}
+
+<div class="card p-4">
+    <div class="empty-state">
+        <i class="bi bi-search"></i>
+        <h6>Not found</h6>
+        <p>@(TempData["ErrorMessage"] as string ?? "The item you're looking for doesn't exist or was removed.")</p>
+    </div>
+    <div class="text-center mt-3">
+        <a href="/Home/Index" class="btn btn-outline-secondary"><i class="bi bi-house-door me-1"></i>Back to Home</a>
+    </div>
+</div>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard - LMSystem</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+  <div id="sidebarPlaceholder"></div>
+  <div class="app-content">
+    <div id="topbarPlaceholder"></div>
+    <main class="page-main">
+      <h2 class="fw-bold mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-primary p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-primary"><i class="bi bi-book"></i></div>
+              <div>
+                <div class="stat-label">Total Books</div>
+                <div class="stat-value" id="statBooks">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-success p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-success"><i class="bi bi-mortarboard"></i></div>
+              <div>
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value" id="statStudents">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-warning p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-warning"><i class="bi bi-person-badge"></i></div>
+              <div>
+                <div class="stat-label">Total Librarians</div>
+                <div class="stat-value" id="statLibrarians">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-danger p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-danger"><i class="bi bi-arrow-left-right"></i></div>
+              <div>
+                <div class="stat-label">Active Borrows</div>
+                <div class="stat-value" id="statBorrowings">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-accent p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-accent"><i class="bi bi-collection"></i></div>
+              <div>
+                <div class="stat-label">Total Publications</div>
+                <div class="stat-value" id="statPublications">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-info p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-info"><i class="bi bi-newspaper"></i></div>
+              <div>
+                <div class="stat-label">Newspapers</div>
+                <div class="stat-value" id="statNewspapers">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="card stat-card stat-purple p-3">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-badge badge-purple"><i class="bi bi-journal-richtext"></i></div>
+              <div>
+                <div class="stat-label">Magazines</div>
+                <div class="stat-value" id="statMagazines">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4 viz-root">
+        <div class="col-md-6">
+          <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-baseline mb-2">
+              <h6 class="mb-0 text-secondary"><i class="bi bi-check2-circle me-1 text-success"></i>Book Availability</h6>
+              <span class="meter-readout" id="availabilityReadout">0 of 0</span>
+            </div>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="availabilityTrack">
+              <div class="meter-fill" id="availabilityFill" style="width:0%"></div>
+            </div>
+            <div class="small text-muted mt-2" id="availabilityCaption"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-baseline mb-2">
+              <h6 class="mb-0 text-secondary"><i class="bi bi-arrow-return-left me-1 text-primary"></i>Borrows Returned</h6>
+              <span class="meter-readout" id="returnReadout">0 of 0</span>
+            </div>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="returnTrack">
+              <div class="meter-fill" id="returnFill" style="width:0%"></div>
+            </div>
+            <div class="small text-muted mt-2" id="returnCaption"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-3 viz-root">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="mb-0 text-secondary"><i class="bi bi-bar-chart-line me-1 text-purple"></i>Borrows per Book</h6>
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="tableToggleBtn">View as table</button>
+        </div>
+        <div id="borrowsChart"></div>
+        <div id="borrowsTable" class="table-responsive d-none"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="chart-tooltip" id="chartTooltip" role="tooltip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async () => {
+  await requireLogin();
+  renderShell('dashboard');
+
+  const dto = await api.get('/dashboard');
+
+  document.getElementById('statBooks').textContent = dto.totalBooks;
+  document.getElementById('statStudents').textContent = dto.totalStudents;
+  document.getElementById('statLibrarians').textContent = dto.totalLibrarians;
+  document.getElementById('statBorrowings').textContent = dto.totalBorrowings;
+  document.getElementById('statPublications').textContent = dto.totalPublications;
+  document.getElementById('statNewspapers').textContent = dto.totalNewspapers;
+  document.getElementById('statMagazines').textContent = dto.totalMagazines;
+
+  const totalBooks = dto.totalBooks;
+  const availableBooks = dto.availableBooks;
+  const availPct = totalBooks ? Math.round((availableBooks / totalBooks) * 100) : 0;
+  document.getElementById('availabilityFill').style.width = availPct + '%';
+  document.getElementById('availabilityTrack').setAttribute('aria-valuenow', String(availPct));
+  document.getElementById('availabilityReadout').textContent = `${availableBooks} of ${totalBooks}`;
+  document.getElementById('availabilityCaption').textContent = totalBooks
+    ? `${availPct}% of the catalog is available to borrow right now.`
+    : 'Add a book to start tracking availability.';
+
+  const totalBorrows = dto.totalBorrowRecords;
+  const returnedBorrows = dto.returnedBorrows;
+  const returnPct = totalBorrows ? Math.round((returnedBorrows / totalBorrows) * 100) : 0;
+  document.getElementById('returnFill').style.width = returnPct + '%';
+  document.getElementById('returnTrack').setAttribute('aria-valuenow', String(returnPct));
+  document.getElementById('returnReadout').textContent = `${returnedBorrows} of ${totalBorrows}`;
+  document.getElementById('returnCaption').textContent = totalBorrows
+    ? `${returnPct}% of all borrow records have been returned.`
+    : 'No borrow activity yet.';
+
+  const counts = dto.borrowsPerBook;
+
+  const chartEl = document.getElementById('borrowsChart');
+  const tableEl = document.getElementById('borrowsTable');
+  const toggleBtn = document.getElementById('tableToggleBtn');
+  const tooltip = document.getElementById('chartTooltip');
+
+  if (counts.length === 0) {
+    chartEl.innerHTML = '<div class="chart-empty">No borrows yet — check out a book to see activity here.</div>';
+    toggleBtn.classList.add('d-none');
+  } else {
+    const maxCount = counts[0].count;
+
+    counts.forEach(entry => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+
+      const label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = entry.title;
+      label.title = entry.title;
+
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.width = `${(entry.count / maxCount) * 100}%`;
+      fill.tabIndex = 0;
+      fill.setAttribute('role', 'img');
+      fill.setAttribute('aria-label', `${entry.title}: ${entry.count} borrow${entry.count === 1 ? '' : 's'}`);
+
+      const value = document.createElement('div');
+      value.className = 'bar-value';
+      value.textContent = entry.count;
+
+      const showTooltip = (evt) => {
+        tooltip.innerHTML = '';
+        const strong = document.createElement('span');
+        strong.className = 'tt-value';
+        strong.textContent = `${entry.count} borrow${entry.count === 1 ? '' : 's'}`;
+        const name = document.createElement('span');
+        name.textContent = ` — ${entry.title}`;
+        tooltip.append(strong, name);
+        tooltip.classList.add('visible');
+        const rect = fill.getBoundingClientRect();
+        const x = evt.clientX ?? rect.right;
+        const y = evt.clientY ?? rect.top;
+        tooltip.style.left = `${x + 14}px`;
+        tooltip.style.top = `${y - 14}px`;
+      };
+      const hideTooltip = () => tooltip.classList.remove('visible');
+
+      fill.addEventListener('pointerenter', showTooltip);
+      fill.addEventListener('pointermove', showTooltip);
+      fill.addEventListener('pointerleave', hideTooltip);
+      fill.addEventListener('focus', showTooltip);
+      fill.addEventListener('blur', hideTooltip);
+
+      track.appendChild(fill);
+      row.append(label, track, value);
+      chartEl.appendChild(row);
+    });
+
+    const table = document.createElement('table');
+    table.className = 'table table-sm table-hover mb-0';
+    const thead = document.createElement('thead');
+    thead.innerHTML = '<tr><th>Book</th><th>Borrows</th></tr>';
+    const tbody = document.createElement('tbody');
+    counts.forEach(entry => {
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      td1.textContent = entry.title;
+      const td2 = document.createElement('td');
+      td2.textContent = entry.count;
+      tr.append(td1, td2);
+      tbody.appendChild(tr);
+    });
+    table.append(thead, tbody);
+    tableEl.appendChild(table);
+
+    toggleBtn.addEventListener('click', () => {
+      const showingChart = !chartEl.classList.contains('d-none');
+      chartEl.classList.toggle('d-none', showingChart);
+      tableEl.classList.toggle('d-none', !showingChart);
+      toggleBtn.textContent = showingChart ? 'View as chart' : 'View as table';
+    });
+  }
+})();
+</script>
+</body>
+</html>

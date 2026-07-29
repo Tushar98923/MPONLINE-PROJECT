@@ -1,0 +1,97 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\about.html",
+      "PackagePath": "staticwebassets\\about.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\book-form.html",
+      "PackagePath": "staticwebassets\\book-form.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\books.html",
+      "PackagePath": "staticwebassets\\books.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\borrow.html",
+      "PackagePath": "staticwebassets\\borrow.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\contact.html",
+      "PackagePath": "staticwebassets\\contact.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\dashboard.html",
+      "PackagePath": "staticwebassets\\dashboard.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\home.html",
+      "PackagePath": "staticwebassets\\home.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\js\\api.js",
+      "PackagePath": "staticwebassets\\js\\api.js"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\js\\auth.js",
+      "PackagePath": "staticwebassets\\js\\auth.js"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\js\\ui.js",
+      "PackagePath": "staticwebassets\\js\\ui.js"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\librarians.html",
+      "PackagePath": "staticwebassets\\librarians.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\publication-form.html",
+      "PackagePath": "staticwebassets\\publication-form.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\publications.html",
+      "PackagePath": "staticwebassets\\publications.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\return.html",
+      "PackagePath": "staticwebassets\\return.html"
+    },
+    {
+      "Id": "C:\\emu8086\\Mponline\\LMSystem\\wwwroot\\students.html",
+      "PackagePath": "staticwebassets\\students.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LMSystem.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.LMSystem.props",
+      "PackagePath": "build\\LMSystem.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.LMSystem.props",
+      "PackagePath": "buildMultiTargeting\\LMSystem.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.LMSystem.props",
+      "PackagePath": "buildTransitive\\LMSystem.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

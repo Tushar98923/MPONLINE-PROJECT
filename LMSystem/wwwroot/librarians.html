@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Librarians - LMSystem</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+  <div id="sidebarPlaceholder"></div>
+  <div class="app-content">
+    <div id="topbarPlaceholder"></div>
+    <main class="page-main">
+      <h2 class="fw-bold mb-4"><i class="bi bi-person-badge me-2"></i>Librarians</h2>
+
+      <div class="card p-4 mb-4" style="max-width: 560px;">
+        <div class="form-card-header">
+          <div class="icon-badge badge-lg badge-warning"><i class="bi bi-person-plus"></i></div>
+          <div><h5 class="mb-0" id="formTitle">Add Librarian</h5></div>
+        </div>
+        <div id="formAlert"></div>
+        <form id="librarianForm" class="needs-validation" novalidate>
+          <input type="hidden" id="librarianId">
+          <div class="mb-3">
+            <label for="name" class="form-label"><i class="bi bi-person me-1"></i>Name</label>
+            <input type="text" class="form-control" id="name" maxlength="100" required>
+            <div class="invalid-feedback">Name is required.</div>
+          </div>
+          <div class="mb-3">
+            <label for="age" class="form-label"><i class="bi bi-calendar3 me-1"></i>Age</label>
+            <input type="number" class="form-control" id="age" min="18" max="100" required>
+            <div class="invalid-feedback">Enter a valid age.</div>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label"><i class="bi bi-telephone me-1"></i>Phone</label>
+            <input type="tel" class="form-control" id="phone" pattern="^[0-9+\(\)\s\-]{7,20}$" required>
+            <div class="invalid-feedback">Invalid phone number.</div>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
+          <button type="button" class="btn btn-outline-secondary" id="cancelBtn"><i class="bi bi-x-lg me-1"></i>Clear</button>
+        </form>
+      </div>
+
+      <form method="get" action="librarians.html" class="d-flex search-bar gap-2 mb-3 flex-wrap">
+        <input type="text" name="searchTerm" id="searchInput" class="form-control" placeholder="Search by name...">
+        <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search me-1"></i>Search</button>
+        <a href="librarians.html" class="btn btn-link" id="clearLink"><i class="bi bi-x-circle me-1"></i>Clear</a>
+      </form>
+
+      <div class="card">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Phone</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="librariansBody"></tbody>
+          </table>
+        </div>
+        <div class="card-footer bg-white border-0 py-3" id="pagination"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script>
+(async () => {
+  await requireLogin();
+  renderShell('librarians');
+
+  const form = document.getElementById('librarianForm');
+  const searchTerm = qs('searchTerm') || '';
+  document.getElementById('searchInput').value = searchTerm;
+  if (!searchTerm) document.getElementById('clearLink').classList.add('d-none');
+
+  function pageHref(page) {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('searchTerm', searchTerm);
+    params.set('page', page);
+    return `librarians.html?${params.toString()}`;
+  }
+
+  function resetForm() {
+    form.reset();
+    form.classList.remove('was-validated');
+    document.getElementById('librarianId').value = '';
+    document.getElementById('formTitle').textContent = 'Add Librarian';
+    document.getElementById('formAlert').innerHTML = '';
+  }
+
+  async function render() {
+    const body = document.getElementById('librariansBody');
+    let data;
+    try {
+      const params = new URLSearchParams();
+      if (searchTerm) params.set('searchTerm', searchTerm);
+      params.set('page', qs('page') || '1');
+      data = await api.get(`/librarians?${params.toString()}`);
+    } catch (err) {
+      body.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="bi bi-exclamation-triangle"></i><h6>Could not load librarians</h6><p>${escapeHtml(err.message)}</p></div></td></tr>`;
+      return;
+    }
+
+    if (data.items.length === 0) {
+      body.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="bi bi-person-badge"></i><h6>No librarians found</h6><p>${searchTerm ? 'Try a different search term or clear the filter.' : 'Add a librarian using the form above.'}</p></div></td></tr>`;
+    } else {
+      body.innerHTML = data.items.map(l => `
+        <tr>
+          <td>${escapeHtml(l.name)}</td>
+          <td>${escapeHtml(l.age)}</td>
+          <td>${escapeHtml(l.phone)}</td>
+          <td class="table-actions">
+            <button class="btn btn-sm btn-outline-primary" data-edit="${l.librarianId}" title="Edit"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-outline-danger" data-delete="${l.librarianId}" title="Delete"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>`).join('');
+
+      body.querySelectorAll('[data-edit]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = Number(btn.dataset.edit);
+          try {
+            const librarian = await api.get(`/librarians/${id}`);
+            document.getElementById('librarianId').value = librarian.librarianId;
+            document.getElementById('name').value = librarian.name;
+            document.getElementById('age').value = librarian.age;
+            document.getElementById('phone').value = librarian.phone;
+            document.getElementById('formTitle').textContent = 'Edit Librarian';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } catch (err) {
+            showAlert('formAlert', err.message);
+          }
+        });
+      });
+
+      body.querySelectorAll('[data-delete]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Delete this librarian?')) return;
+          const id = Number(btn.dataset.delete);
+          try {
+            await api.del(`/librarians/${id}`);
+            render();
+          } catch (err) {
+            showAlert('formAlert', err.message);
+          }
+        });
+      });
+    }
+
+    renderPagination('pagination', data.currentPage, data.totalPages, pageHref);
+  }
+
+  document.getElementById('cancelBtn').addEventListener('click', resetForm);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    form.classList.add('was-validated');
+    if (!form.checkValidity()) return;
+
+    const id = document.getElementById('librarianId').value;
+    const payload = {
+      name: document.getElementById('name').value.trim(),
+      age: Number(document.getElementById('age').value),
+      phone: document.getElementById('phone').value.trim()
+    };
+
+    try {
+      if (id) {
+        await api.put(`/librarians/${id}`, payload);
+      } else {
+        await api.post('/librarians', payload);
+      }
+      resetForm();
+      render();
+    } catch (err) {
+      showAlert('formAlert', err.message);
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

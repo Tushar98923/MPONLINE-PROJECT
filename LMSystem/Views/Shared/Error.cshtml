@@ -1,0 +1,19 @@
+@model ErrorViewModel?
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="card p-4">
+    <div class="empty-state">
+        <i class="bi bi-exclamation-octagon"></i>
+        <h6>Something went wrong</h6>
+        <p>An error occurred while processing your request. Please try again.</p>
+    </div>
+    @if (Model != null && Model.ShowRequestId)
+    {
+        <p class="text-center text-muted small mb-0">Request ID: <code>@Model.RequestId</code></p>
+    }
+    <div class="text-center mt-3">
+        <a href="/Home/Index" class="btn btn-outline-secondary"><i class="bi bi-house-door me-1"></i>Back to Home</a>
+    </div>
+</div>

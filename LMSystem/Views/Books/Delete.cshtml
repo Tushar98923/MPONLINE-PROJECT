@@ -1,0 +1,28 @@
+@model Book
+@{
+    ViewData["Title"] = "Delete Book";
+    ViewData["ActiveNav"] = "books";
+}
+
+<div class="card p-4" style="max-width: 550px;" class="border-danger">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-danger"><i class="bi bi-trash"></i></div>
+        <div>
+            <h5>Confirm deletion</h5>
+            <p>This action cannot be undone.</p>
+        </div>
+    </div>
+    <dl class="row bg-light p-3 rounded">
+        <dt class="col-sm-4 text-secondary">Title</dt>
+        <dd class="col-sm-8 fw-bold">@Model.Title</dd>
+        <dt class="col-sm-4 text-secondary">Author</dt>
+        <dd class="col-sm-8">@Model.Author</dd>
+        <dt class="col-sm-4 text-secondary">ISBN</dt>
+        <dd class="col-sm-8">@Model.ISBN</dd>
+    </dl>
+    <form asp-action="Delete" method="post" class="d-flex gap-2 justify-content-end mt-3">
+        <input type="hidden" asp-for="BookId">
+        <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1"></i>Cancel</a>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Yes, Delete</button>
+    </form>
+</div>

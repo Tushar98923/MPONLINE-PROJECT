@@ -1,0 +1,28 @@
+@model ProfileEditViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+    ViewData["ActiveNav"] = "profile";
+}
+
+<h2 class="fw-bold mb-4">Edit Profile</h2>
+<div class="card p-4" style="max-width: 560px;">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-warning"><i class="bi bi-pencil-square"></i></div>
+        <div><h5 class="mb-0">Update your details</h5></div>
+    </div>
+    <form asp-action="Edit" method="post" class="needs-validation" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"><i class="bi bi-badge-tm me-1"></i>Full Name</label>
+            <input asp-for="FullName" class="form-control" required>
+            <span asp-validation-for="FullName" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"><i class="bi bi-envelope me-1"></i>Email</label>
+            <input asp-for="Email" type="email" class="form-control" required>
+            <span asp-validation-for="Email" class="invalid-feedback"></span>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
+        <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1"></i>Cancel</a>
+    </form>
+</div>

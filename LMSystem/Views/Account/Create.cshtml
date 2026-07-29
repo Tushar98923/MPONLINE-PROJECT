@@ -1,0 +1,48 @@
+@model AccountCreateViewModel
+@{
+    ViewData["Title"] = "Add Account";
+    ViewData["ActiveNav"] = "accounts";
+}
+
+<h2 class="fw-bold mb-4">Add Account</h2>
+<div class="card p-4" style="max-width: 560px;">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-success"><i class="bi bi-person-plus"></i></div>
+        <div><h5 class="mb-0">New account</h5></div>
+    </div>
+    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <div class="mb-3">
+            <label asp-for="Username" class="form-label"><i class="bi bi-person me-1"></i>Username</label>
+            <input asp-for="Username" class="form-control" required>
+            <span asp-validation-for="Username" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"><i class="bi bi-badge-tm me-1"></i>Full Name</label>
+            <input asp-for="FullName" class="form-control" required>
+            <span asp-validation-for="FullName" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"><i class="bi bi-envelope me-1"></i>Email</label>
+            <input asp-for="Email" type="email" class="form-control" required>
+            <span asp-validation-for="Email" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Role" class="form-label"><i class="bi bi-person-badge me-1"></i>Role</label>
+            <select asp-for="Role" class="form-select" asp-items="Html.GetEnumSelectList<AccountRole>()"></select>
+            <span asp-validation-for="Role" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"><i class="bi bi-lock me-1"></i>Password</label>
+            <input asp-for="Password" type="password" class="form-control" required>
+            <span asp-validation-for="Password" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"><i class="bi bi-lock-fill me-1"></i>Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control" required>
+            <span asp-validation-for="ConfirmPassword" class="invalid-feedback"></span>
+        </div>
+        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Save</button>
+        <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1"></i>Cancel</a>
+    </form>
+</div>

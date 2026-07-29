@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home - LMSystem</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="css/site.css" rel="stylesheet">
+</head>
+<body>
+<div class="app-shell">
+  <div id="sidebarPlaceholder"></div>
+  <div class="app-content">
+    <div id="topbarPlaceholder"></div>
+    <main class="page-main">
+
+      <div class="hero-panel mb-5">
+        <i class="bi bi-book-half hero-decor" aria-hidden="true"></i>
+        <h1 class="fw-bold mb-2"><i class="bi bi-stars me-2"></i>Welcome back<span id="heroUser"></span></h1>
+        <p class="mb-0">Browse featured titles, catch the latest announcements, or jump straight into managing books, students, librarians and publications.</p>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold m-0"><i class="bi bi-award me-2"></i>Featured Books</h2>
+        <a href="books.html" class="btn btn-outline-primary btn-sm"><i class="bi bi-grid me-1"></i>View All Books</a>
+      </div>
+      <div class="row g-4 mb-5" id="featuredBooks"></div>
+
+      <h2 class="fw-bold mb-3"><i class="bi bi-megaphone me-2"></i>Library Announcements</h2>
+      <div class="alert alert-info d-flex align-items-start gap-2" role="alert">
+        <i class="bi bi-stars fs-5"></i>
+        <div><strong>New Arrivals:</strong> Check out the latest books added to our collection, including fresh titles in the Books module.</div>
+      </div>
+      <div class="alert alert-warning d-flex align-items-start gap-2" role="alert">
+        <i class="bi bi-clock-history fs-5"></i>
+        <div><strong>Library Hours Update:</strong> The library will be closed on public holidays. Please plan your visits accordingly.</div>
+      </div>
+      <div class="alert alert-success d-flex align-items-start gap-2 mb-0" role="alert">
+        <i class="bi bi-newspaper fs-5"></i>
+        <div><strong>Publications Desk:</strong> Daily newspapers and the latest magazine issues are now searchable from the sidebar.</div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script>
+  (async () => {
+    const user = await requireLogin();
+    renderShell('home');
+    document.getElementById('heroUser').textContent = user ? `, ${user}` : '';
+
+    const covers = ['cover-1', 'cover-2', 'cover-3', 'cover-4'];
+    const featuredBooksEl = document.getElementById('featuredBooks');
+
+    try {
+      const page = await api.get('/books?page=1');
+      const featured = page.items.slice(0, 3);
+
+      featuredBooksEl.innerHTML = featured.length
+        ? featured.map((book, i) => `
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="book-cover ${covers[i % covers.length]}"><i class="bi bi-book"></i></div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">${escapeHtml(book.title)}</h5>
+                <p class="card-text text-muted small flex-grow-1">By ${escapeHtml(book.author)} &middot; ${escapeHtml(book.publishedDate)}</p>
+                <a href="books.html" class="btn btn-primary btn-sm align-self-start">View in Books</a>
+              </div>
+            </div>
+          </div>`).join('')
+        : '<div class="col-12"><div class="card p-4"><div class="empty-state"><i class="bi bi-journal-x"></i><h6>No books in the catalog yet</h6><p>Add your first book to see it featured here.</p></div></div></div>';
+    } catch (err) {
+      featuredBooksEl.innerHTML = `<div class="col-12"><div class="card p-4"><div class="empty-state"><i class="bi bi-exclamation-triangle"></i><h6>Could not load featured books</h6><p>${escapeHtml(err.message)}</p></div></div></div>`;
+    }
+  })();
+</script>
+</body>
+</html>

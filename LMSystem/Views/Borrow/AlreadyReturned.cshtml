@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Already Returned";
+    ViewData["ActiveNav"] = "books";
+}
+
+<div class="card p-4" style="max-width: 560px;">
+    <div class="empty-state">
+        <i class="bi bi-check2-circle"></i>
+        <h6>Already returned</h6>
+        <p>This book has already been returned.</p>
+    </div>
+    <div class="text-center mt-3">
+        <a asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Back to Books</a>
+    </div>
+</div>

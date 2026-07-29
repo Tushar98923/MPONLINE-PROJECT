@@ -1,0 +1,98 @@
+@model PublicationListViewModel
+@{
+    var typeName = Model.Type.ToString();
+    ViewData["Title"] = typeName + "s";
+    ViewData["ActiveNav"] = Model.Type == PublicationType.Magazine ? "magazines" : "newspapers";
+    var icon = Model.Type == PublicationType.Magazine ? "bi-journal-richtext" : "bi-newspaper";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+    <h2 class="fw-bold m-0"><i class="bi @icon me-2"></i>@(typeName)s</h2>
+    <div class="type-tabs">
+        <a asp-action="Index" asp-route-type="Newspaper" class="@(Model.Type == PublicationType.Newspaper ? "active" : "")"><i class="bi bi-newspaper me-1"></i>Newspapers</a>
+        <a asp-action="Index" asp-route-type="Magazine" class="@(Model.Type == PublicationType.Magazine ? "active" : "")"><i class="bi bi-journal-richtext me-1"></i>Magazines</a>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <a asp-action="Create" asp-route-type="@typeName" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Add New</a>
+    <form asp-action="Index" method="get" class="d-flex search-bar gap-2 flex-wrap">
+        <input type="hidden" name="type" value="@typeName">
+        <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by title or publisher...">
+        <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search me-1"></i>Search</button>
+        @if (!string.IsNullOrWhiteSpace(Model.SearchString))
+        {
+            <a asp-action="Index" asp-route-type="@typeName" class="btn btn-link"><i class="bi bi-x-circle me-1"></i>Clear</a>
+        }
+    </form>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Published Date</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Publications.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <i class="bi @icon"></i>
+                                <h6>No @(typeName.ToLower())s found</h6>
+                                <p>@(string.IsNullOrWhiteSpace(Model.SearchString) ? $"Add a new {typeName.ToLower()} to get started." : "Try a different search term or clear the filter.")</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var p in Model.Publications)
+                    {
+                        <tr>
+                            <td>@p.Title</td>
+                            <td>@p.Publisher</td>
+                            <td>@p.PublishedDate.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                @if (p.IsAvailable)
+                                {
+                                    <span class="badge text-bg-success">Available</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-danger">Checked Out</span>
+                                }
+                            </td>
+                            <td class="table-actions">
+                                <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.TotalPages > 1)
+    {
+        <div class="card-footer bg-white border-0 py-3">
+            <nav>
+                <ul class="pagination mb-0">
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-type="@typeName" asp-route-searchString="@Model.SearchString" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

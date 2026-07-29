@@ -1,0 +1,41 @@
+@model BorrowViewModel
+@{
+    ViewData["Title"] = "Borrow Book";
+    ViewData["ActiveNav"] = "books";
+}
+
+<h2 class="fw-bold mb-4">Borrow Book</h2>
+<div class="card p-4" style="max-width: 560px;">
+    <div class="form-card-header">
+        <div class="icon-badge badge-lg badge-success"><i class="bi bi-journal-check"></i></div>
+        <div>
+            <h5>Borrow this book</h5>
+            <p>Enter your details to check it out.</p>
+        </div>
+    </div>
+    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <input type="hidden" asp-for="BookId">
+        <div class="mb-3">
+            <label class="form-label"><i class="bi bi-book me-1"></i>Book Title</label>
+            <input type="text" class="form-control" value="@Model.BookTitle" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="BorrowerName" class="form-label"><i class="bi bi-person me-1"></i>Your Name</label>
+            <input asp-for="BorrowerName" class="form-control" required>
+            <span asp-validation-for="BorrowerName" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="BorrowerEmail" class="form-label"><i class="bi bi-envelope me-1"></i>Your Email</label>
+            <input asp-for="BorrowerEmail" class="form-control" required>
+            <span asp-validation-for="BorrowerEmail" class="invalid-feedback"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label"><i class="bi bi-telephone me-1"></i>Phone Number</label>
+            <input asp-for="Phone" class="form-control" required>
+            <span asp-validation-for="Phone" class="invalid-feedback"></span>
+        </div>
+        <button type="submit" class="btn btn-success"><i class="bi bi-journal-check me-1"></i>Borrow</button>
+        <a asp-controller="Books" asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-x-lg me-1"></i>Cancel</a>
+    </form>
+</div>

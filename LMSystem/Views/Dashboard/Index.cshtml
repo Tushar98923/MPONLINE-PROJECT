@@ -1,0 +1,148 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActiveNav"] = "dashboard";
+    int availPct = Model.TotalBooks > 0 ? (int)Math.Round(Model.AvailableBooks * 100.0 / Model.TotalBooks) : 0;
+    int returnPct = Model.TotalBorrowRecords > 0 ? (int)Math.Round(Model.ReturnedBorrows * 100.0 / Model.TotalBorrowRecords) : 0;
+    var maxCount = Model.BorrowsPerBook.Count > 0 ? Model.BorrowsPerBook.Max(c => c.Count) : 0;
+}
+
+<h2 class="fw-bold mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-primary p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-primary"><i class="bi bi-book"></i></div>
+                <div>
+                    <div class="stat-label">Total Books</div>
+                    <div class="stat-value">@Model.TotalBooks</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-success p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-success"><i class="bi bi-mortarboard"></i></div>
+                <div>
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-value">@Model.TotalStudents</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-warning p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-warning"><i class="bi bi-person-badge"></i></div>
+                <div>
+                    <div class="stat-label">Total Librarians</div>
+                    <div class="stat-value">@Model.TotalLibrarians</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-danger p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-danger"><i class="bi bi-arrow-left-right"></i></div>
+                <div>
+                    <div class="stat-label">Active Borrows</div>
+                    <div class="stat-value">@Model.TotalBorrowings</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-accent p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-accent"><i class="bi bi-collection"></i></div>
+                <div>
+                    <div class="stat-label">Total Publications</div>
+                    <div class="stat-value">@Model.TotalPublications</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-info p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-info"><i class="bi bi-newspaper"></i></div>
+                <div>
+                    <div class="stat-label">Newspapers</div>
+                    <div class="stat-value">@Model.TotalNewspapers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card stat-card stat-purple p-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icon-badge badge-purple"><i class="bi bi-journal-richtext"></i></div>
+                <div>
+                    <div class="stat-label">Magazines</div>
+                    <div class="stat-value">@Model.TotalMagazines</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4 viz-root">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-baseline mb-2">
+                <h6 class="mb-0 text-secondary"><i class="bi bi-check2-circle me-1 text-success"></i>Book Availability</h6>
+                <span class="meter-readout">@Model.AvailableBooks of @Model.TotalBooks</span>
+            </div>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="@availPct">
+                <div class="meter-fill" style="width:@(availPct)%"></div>
+            </div>
+            <div class="small text-muted mt-2">
+                @(Model.TotalBooks > 0 ? $"{availPct}% of the catalog is available to borrow right now." : "Add a book to start tracking availability.")
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-baseline mb-2">
+                <h6 class="mb-0 text-secondary"><i class="bi bi-arrow-return-left me-1 text-primary"></i>Borrows Returned</h6>
+                <span class="meter-readout">@Model.ReturnedBorrows of @Model.TotalBorrowRecords</span>
+            </div>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="@returnPct">
+                <div class="meter-fill" style="width:@(returnPct)%"></div>
+            </div>
+            <div class="small text-muted mt-2">
+                @(Model.TotalBorrowRecords > 0 ? $"{returnPct}% of all borrow records have been returned." : "No borrow activity yet.")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card p-3 viz-root">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="mb-0 text-secondary"><i class="bi bi-bar-chart-line me-1 text-purple"></i>Borrows per Book</h6>
+    </div>
+    @if (Model.BorrowsPerBook.Count == 0)
+    {
+        <div class="chart-empty">No borrows yet - check out a book to see activity here.</div>
+    }
+    else
+    {
+        @foreach (var entry in Model.BorrowsPerBook)
+        {
+            <div class="bar-row">
+                <div class="bar-label" title="@entry.Title">@entry.Title</div>
+                <div class="bar-track">
+                    <div class="bar-fill" style="width:@(maxCount > 0 ? entry.Count * 100.0 / maxCount : 0)%"
+                         role="img" aria-label="@entry.Title: @entry.Count borrow(s)"></div>
+                </div>
+                <div class="bar-value">@entry.Count</div>
+            </div>
+        }
+    }
+</div>
