@@ -67,6 +67,4 @@ The app starts at `http://localhost:5093` by default (see `Properties/launchSett
 
 See [`LMSystem_Project_Report.md`](LMSystem_Project_Report.md) for the full project report (requirements, design, testing, etc.).
 
-## License
 
-No license specified yet — add one (e.g., MIT) before making this repository public if you intend others to reuse the code.
